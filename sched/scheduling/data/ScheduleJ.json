@@ -1,0 +1,30 @@
+[
+  {
+    "Subject": "OOP",
+    "Professor": "Sir. Ed",
+    "Room": "201",
+    "Day": "Saturday",
+    "Time": "2pm - 7pm"
+  },
+  {
+    "Subject": "Database",
+    "Professor": "Sir John",
+    "Room": "305",
+    "Day": "Monday",
+    "Time": "9am - 10am"
+  },
+  {
+    "Subject": "Networking",
+    "Professor": "Sir Mark",
+    "Room": "101",
+    "Day": "Saturday",
+    "Time": "7am - 10am"
+  },
+  {
+    "Subject": "Computer Programming",
+    "Professor": "Sir Migz",
+    "Room": "201",
+    "Day": "Wednesday",
+    "Time": "7 am - 12 pm"
+  }
+]
