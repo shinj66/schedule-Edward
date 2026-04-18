@@ -11,7 +11,7 @@ namespace Dataservice
     public class scheduleDatabase:ISchedule
     {
         private string connectionString
-           = "Data Source = localhost\\SQLEXPRESS; Initial Catalog = Schedule; Integrated Security = True; TrustServerCertificate=True;";
+           = "Data Source = localhost\\SQLEXPRESS; Initial Catalog = Scheduling; Integrated Security = True; TrustServerCertificate=True;";
 
         private SqlConnection sqlConnection;
 
@@ -59,7 +59,7 @@ namespace Dataservice
 
         public void Add(Schedule sched)
         {
-            var insertStatement = "INSERT INTO tbl_schedule VALUES (@Subject,@Professor,@Room,@Day,@Time)";
+            var insertStatement = "INSERT INTO Schedules VALUES (@Subject,@Professor,@Room,@Day,@Time)";
             SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
 
             insertCommand.Parameters.AddWithValue("@Subject", sched.Subject);
@@ -74,7 +74,7 @@ namespace Dataservice
         }
         public List<Schedule> GetSchedule()
         {
-            var selectStatement = "SELECT Subject, Professor, Room,Day,Time  FROM tbl_schedule";
+            var selectStatement = "SELECT Subject, Professor, Room,Day,Time  FROM Schedules";
             SqlCommand command = new SqlCommand(selectStatement, sqlConnection);
 
             sqlConnection.Open();

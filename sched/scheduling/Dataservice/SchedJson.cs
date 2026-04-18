@@ -1,56 +1,75 @@
 ﻿using ScheduleApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 
 namespace Dataservice
 {
-   public class SchedJson:ISchedule
+    public class SchedJson : ISchedule
     {
         private List<Schedule> sc = new List<Schedule>();
         private string _jsonFileName;
+
         public SchedJson()
         {
-            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}/ScheduleJ.json";
+            _jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ScheduleJ.json");
+            EnsureFileExists();
             PopulateJsonFile();
+        }
+
+        
+        private void EnsureFileExists()
+        {
+            if (!File.Exists(_jsonFileName))
+            {
+                using (var stream = File.Create(_jsonFileName))
+                {
+                  
+                }
+
+               
+                File.WriteAllText(_jsonFileName, "[]");
+            }
         }
 
         private void PopulateJsonFile()
         {
             RetrieveDataFromJsonFile();
 
-            if (sc.Count <= 0)
+            if (sc == null || sc.Count == 0)
             {
-             sc.Add(new Schedule { 
-                 Subject = "OOP",
-                 Professor =  "Sir. Ed", 
-                 Room = "201",
-                 Day = "Saturday",
-                 Time = "2pm - 7pm"
-             });
-                sc.Add(new Schedule
+                sc = new List<Schedule>
                 {
-                    Subject = "Database",
-                    Professor = "Sir John",
-                    Room = "305",
-                    Day = "Monday",
-                    Time = "9am - 10am"
-                });
-
-                sc.Add(new Schedule
-                {
-                    Subject = "Networking",
-                    Professor = "Sir Mark",
-                    Room = "101",
-                    Day = "Saturday",
-                    Time = "7am - 10am"
-                });
+                    new Schedule
+                    {
+                        Subject = "OOP",
+                        Professor = "Sir. Ed",
+                        Room = "201",
+                        Day = "Saturday",
+                        Time = "2pm - 7pm"
+                    },
+                    new Schedule
+                    {
+                        Subject = "Database",
+                        Professor = "Sir John",
+                        Room = "305",
+                        Day = "Monday",
+                        Time = "9am - 10am"
+                    },
+                    new Schedule
+                    {
+                        Subject = "Networking",
+                        Professor = "Sir Mark",
+                        Room = "101",
+                        Day = "Saturday",
+                        Time = "7am - 10am"
+                    }
+                };
 
                 SaveDataToJsonFile();
-            } 
+            }
         }
 
         private void SaveDataToJsonFile()
@@ -66,20 +85,30 @@ namespace Dataservice
 
         private void RetrieveDataFromJsonFile()
         {
-            using (var jsonFileReader = File.OpenText(this._jsonFileName))
+            try
             {
-                this.sc = JsonSerializer.Deserialize<List<Schedule>>
-                    (jsonFileReader.ReadToEnd(), new JsonSerializerOptions
-                    { PropertyNameCaseInsensitive = true })
-                    .ToList();
+                string json = File.ReadAllText(_jsonFileName);
+
+                sc = JsonSerializer.Deserialize<List<Schedule>>(json,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    }) ?? new List<Schedule>();
+            }
+            catch
+            {
+                
+                sc = new List<Schedule>();
             }
         }
+
         public void Add(Schedule sched)
         {
+            RetrieveDataFromJsonFile(); 
             sc.Add(sched);
             SaveDataToJsonFile();
         }
-     
+
         public List<Schedule> GetSchedule()
         {
             RetrieveDataFromJsonFile();
