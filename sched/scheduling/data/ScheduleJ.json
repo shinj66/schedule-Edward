@@ -21,10 +21,38 @@
     "Time": "7am - 10am"
   },
   {
-    "Subject": "Computer Programming",
-    "Professor": "Sir Migz",
-    "Room": "201",
-    "Day": "Wednesday",
-    "Time": "7 am - 12 pm"
+    "Subject": "Integ",
+    "Professor": "Ma\u0027am Indaleen",
+    "Room": "210",
+    "Day": "Saturday",
+    "Time": "8 am - 12 pm"
+  },
+  {
+    "Subject": "Math",
+    "Professor": "Sir Rod",
+    "Room": "213",
+    "Day": "Monday",
+    "Time": "3 pm - 5 pm"
+  },
+  {
+    "Subject": "Science",
+    "Professor": "Sir Angelo",
+    "Room": "302",
+    "Day": "Thursday",
+    "Time": "1 pm - 3 pm"
+  },
+  {
+    "Subject": "Filipino",
+    "Professor": "Sir Mislan",
+    "Room": "305",
+    "Day": "Saturday",
+    "Time": "5 pm - 8 pm"
+  },
+  {
+    "Subject": "ada",
+    "Professor": "adas",
+    "Room": "402",
+    "Day": "sunday",
+    "Time": "6 am - 6 pm"
   }
 ]
