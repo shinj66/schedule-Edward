@@ -1,9 +1,5 @@
 ﻿using ScheduleApp.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dataservice
 {
@@ -15,13 +11,26 @@ namespace Dataservice
         {
             _dataservice = schedkDataService;
         }
+
         public void Add(Schedule sched)
         {
             _dataservice.Add(sched);
         }
+
         public List<Schedule> GetSchedule()
         {
             return _dataservice.GetSchedule();
+        }
+
+        public void Update(int index, Schedule sched)
+        {
+            _dataservice.Update(index, sched);
+        }
+
+        
+        public void Delete(int index)
+        {
+            _dataservice.Delete(index);
         }
     }
 }

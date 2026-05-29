@@ -9,7 +9,6 @@ namespace ScheduleApp.Data
 
         public schedulingservice()
         {
-            // Fake data (acts like a database)
             schedules = new List<Schedule>
             {
                 new Schedule
@@ -27,7 +26,6 @@ namespace ScheduleApp.Data
                     Room = "305",
                     Day = "Monday",
                     Time = "9am - 10am"
-
                 },
                 new Schedule
                 {
@@ -36,17 +34,38 @@ namespace ScheduleApp.Data
                     Room = "101",
                     Day = "Saturday",
                     Time = "7am - 10am"
-                    }
+                }
             };
         }
+
+        
         public void AddSchedule(Schedule schedule)
         {
             schedules.Add(schedule);
         }
 
+      
         public List<Schedule> GetAllSchedules()
         {
             return schedules;
+        }
+
+       
+        public void Update(int index, Schedule updatedSchedule)
+        {
+            if (index >= 0 && index < schedules.Count)
+            {
+                schedules[index] = updatedSchedule;
+            }
+        }
+
+       
+        public void Delete(int index)
+        {
+            if (index >= 0 && index < schedules.Count)
+            {
+                schedules.RemoveAt(index);
+            }
         }
     }
 }

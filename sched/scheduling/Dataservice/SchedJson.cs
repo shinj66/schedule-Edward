@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 namespace Dataservice
@@ -14,22 +13,24 @@ namespace Dataservice
 
         public SchedJson()
         {
-            _jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ScheduleJ.json");
+            string projectRoot = Path.GetFullPath(
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\")
+            );
+
+            _jsonFileName = Path.Combine(projectRoot, "ScheduleJ.json");
+
             EnsureFileExists();
             PopulateJsonFile();
         }
 
-        
         private void EnsureFileExists()
         {
             if (!File.Exists(_jsonFileName))
             {
                 using (var stream = File.Create(_jsonFileName))
                 {
-                  
                 }
 
-               
                 File.WriteAllText(_jsonFileName, "[]");
             }
         }
@@ -97,14 +98,13 @@ namespace Dataservice
             }
             catch
             {
-                
                 sc = new List<Schedule>();
             }
         }
 
         public void Add(Schedule sched)
         {
-            RetrieveDataFromJsonFile(); 
+            RetrieveDataFromJsonFile();
             sc.Add(sched);
             SaveDataToJsonFile();
         }
@@ -113,6 +113,28 @@ namespace Dataservice
         {
             RetrieveDataFromJsonFile();
             return sc;
+        }
+
+        public void Update(int index, Schedule updatedSchedule)
+        {
+            RetrieveDataFromJsonFile();
+
+            if (index >= 0 && index < sc.Count)
+            {
+                sc[index] = updatedSchedule;
+                SaveDataToJsonFile();
+            }
+        }
+
+        public void Delete(int index)
+        {
+            RetrieveDataFromJsonFile();
+
+            if (index >= 0 && index < sc.Count)
+            {
+                sc.RemoveAt(index);
+                SaveDataToJsonFile();
+            }
         }
     }
 }

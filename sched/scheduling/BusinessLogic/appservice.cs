@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using Dataservice;
 using ScheduleApp.Data;
 using ScheduleApp.Models;
@@ -15,9 +16,9 @@ namespace ScheduleApp.Business
         {
             _dataService = new schedulingservice();
         }
+
         public void AddSchedule(Schedule schedule)
         {
-          
             sc.Add(schedule);
             sj.Add(schedule);
             _dataService.AddSchedule(schedule);
@@ -25,10 +26,25 @@ namespace ScheduleApp.Business
 
         public List<Schedule> GetSchedules()
         {
-          
+       
             return sc.GetSchedule();
-            return sj.GetSchedule();
-            return _dataService.GetAllSchedules();
+
+            
+        }
+
+     
+        public void UpdateSchedule(int index, Schedule schedule)
+        {
+            sc.Update(index, schedule);
+            sj.Update(index, schedule);
+            _dataService.Update(index, schedule);
+        }
+
+        public void DeleteSchedule(int index)
+        {
+            sc.Delete(index);
+            sj.Delete(index);
+            _dataService.Delete(index);
         }
     }
 }
