@@ -5,7 +5,7 @@ namespace ScheduleApp.Data
 {
     public class schedulingservice
     {
-        private List<Schedule> schedules;
+        private List<Schedule> schedules;   
 
         public schedulingservice()
         {

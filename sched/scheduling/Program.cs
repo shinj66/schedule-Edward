@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ScheduleApp.Business;
 using ScheduleApp.Models;
 
@@ -10,6 +9,27 @@ namespace ScheduleApp.ConsoleUI
         static void Main()
         {
             var scheduleService = new appservice();
+
+            Console.WriteLine("       SCHEDULE MANAGEMENT       ");
+
+           
+            string emailInput;
+            while (true)
+            {
+                Console.Write("Enter your email for Mailtrap notifications: ");
+                emailInput = Console.ReadLine()?.Trim();
+
+                if (!string.IsNullOrWhiteSpace(emailInput) &&
+                    emailInput.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
+                {
+                    scheduleService.UserEmail = emailInput;
+                    break;  
+                }
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error: Invalid email! Must end with '@gmail.com'. Please try again.\n");
+                Console.ResetColor();
+            }
 
             while (true)
             {
@@ -26,7 +46,6 @@ namespace ScheduleApp.ConsoleUI
                 if (choice == "1")
                 {
                     var schedules = scheduleService.GetSchedules();
-
                     if (schedules == null || schedules.Count == 0)
                     {
                         Console.WriteLine("No schedules found.");
@@ -36,154 +55,107 @@ namespace ScheduleApp.ConsoleUI
                     Console.WriteLine("\nYOUR SCHEDULE IN SCHOOL:");
                     for (int i = 0; i < schedules.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {schedules[i].Subject}");
+                        var s = schedules[i];
+                        Console.WriteLine($"{i + 1}. {s.Subject} | Prof: {s.Professor} | Room: {s.Room} | Day: {s.Day} | Time: {s.Time}");
                     }
-
-                    Console.WriteLine($"{schedules.Count + 1}. Back");
-
-                    Console.Write("Choose a subject to view details: ");
-
-                    if (!int.TryParse(Console.ReadLine(), out int sel) ||
-                        sel < 1 || sel > schedules.Count + 1)
-                    {
-                        Console.WriteLine("Invalid input.");
-                        continue;
-                    }
-
-                    if (sel == schedules.Count + 1)
-                        continue;
-
-                    var selected = schedules[sel - 1];
-
-                    Console.WriteLine($"\nSubject: {selected.Subject}");
-                    Console.WriteLine($"Professor: {selected.Professor}");
-                    Console.WriteLine($"Room: {selected.Room}");
-                    Console.WriteLine($"Day: {selected.Day}");
-                    Console.WriteLine($"Time: {selected.Time}");
                 }
-
                 else if (choice == "2")
                 {
-                    Console.WriteLine("\n=== ADD NEW SCHEDULE ===");
-
-                    Console.Write("Subject: ");
+                    Console.WriteLine("\n--- ADD NEW SCHEDULE ---");
+                    Console.Write("Enter Subject: ");
                     string subject = Console.ReadLine();
 
-                    Console.Write("Professor: ");
+                    Console.Write("Enter Professor: ");
                     string professor = Console.ReadLine();
 
-                    Console.Write("Room: ");
+                    Console.Write("Enter Room: ");
                     string room = Console.ReadLine();
 
-                    Console.Write("Day: ");
+                    Console.Write("Enter Day: ");
                     string day = Console.ReadLine();
 
-                    Console.Write("Time: ");
+                    Console.Write("Enter Time: ");
                     string time = Console.ReadLine();
 
-                    var newSchedule = new Schedule
+                    scheduleService.AddSchedule(new Schedule
                     {
                         Subject = subject,
                         Professor = professor,
                         Room = room,
                         Day = day,
                         Time = time
-                    };
+                    });
 
-                    scheduleService.AddSchedule(newSchedule);
-                    Console.WriteLine("✅ Schedule added successfully!");
+                    Console.WriteLine("Schedule added successfully!");
                 }
-
                 else if (choice == "3")
                 {
                     var schedules = scheduleService.GetSchedules();
-
                     if (schedules == null || schedules.Count == 0)
                     {
-                        Console.WriteLine("No schedules to update.");
+                        Console.WriteLine("No schedules available to update.");
                         continue;
                     }
 
-                    Console.WriteLine("\n=== SELECT SCHEDULE TO UPDATE ===");
-                    for (int i = 0; i < schedules.Count; i++)
+                    Console.Write("\nEnter the number of the schedule to update: ");
+                    if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= schedules.Count)
                     {
-                        Console.WriteLine($"{i + 1}. {schedules[i].Subject}");
+                        Console.WriteLine("\n--- ENTER UPDATED DETAILS ---");
+                        Console.Write("Enter Subject: ");
+                        string subject = Console.ReadLine();
+
+                        Console.Write("Enter Professor: ");
+                        string professor = Console.ReadLine();
+
+                        Console.Write("Enter Room: ");
+                        string room = Console.ReadLine();
+
+                        Console.Write("Enter Day: ");
+                        string day = Console.ReadLine();
+
+                        Console.Write("Enter Time: ");
+                        string time = Console.ReadLine();
+
+                        scheduleService.UpdateSchedule(index - 1, new Schedule
+                        {
+                            Subject = subject,
+                            Professor = professor,
+                            Room = room,
+                            Day = day,
+                            Time = time
+                        });
+
+                        Console.WriteLine("Schedule updated successfully!");
                     }
-
-                    Console.Write("Choose entry number: ");
-
-                    if (!int.TryParse(Console.ReadLine(), out int sel) ||
-                        sel < 1 || sel > schedules.Count)
+                    else
                     {
                         Console.WriteLine("Invalid selection.");
-                        continue;
                     }
-
-                    int index = sel - 1;
-                    var selected = schedules[index];
-
-                    var updatedSchedule = new Schedule();
-
-                    Console.WriteLine($"\nUpdating: {selected.Subject}");
-
-                    Console.Write($"New Subject (Current: {selected.Subject}): ");
-                    updatedSchedule.Subject = Console.ReadLine();
-
-                    Console.Write($"New Professor (Current: {selected.Professor}): ");
-                    updatedSchedule.Professor = Console.ReadLine();
-
-                    Console.Write($"New Room (Current: {selected.Room}): ");
-                    updatedSchedule.Room = Console.ReadLine();
-
-                    Console.Write($"New Day (Current: {selected.Day}): ");
-                    updatedSchedule.Day = Console.ReadLine();
-
-                    Console.Write($"New Time (Current: {selected.Time}): ");
-                    updatedSchedule.Time = Console.ReadLine();
-
-                    scheduleService.UpdateSchedule(index, updatedSchedule);
-                    Console.WriteLine("✅ Schedule updated successfully!");
                 }
-
-                
                 else if (choice == "4")
                 {
                     var schedules = scheduleService.GetSchedules();
-
                     if (schedules == null || schedules.Count == 0)
                     {
-                        Console.WriteLine("No schedules to delete.");
+                        Console.WriteLine("No schedules available to delete.");
                         continue;
                     }
 
-                    Console.WriteLine("\n=== SELECT SCHEDULE TO DELETE ===");
-                    for (int i = 0; i < schedules.Count; i++)
+                    Console.Write("\nEnter the number of the schedule to delete: ");
+                    if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= schedules.Count)
                     {
-                        Console.WriteLine($"{i + 1}. {schedules[i].Subject}");
+                        scheduleService.DeleteSchedule(index - 1);
+                        Console.WriteLine("Schedule deleted successfully!");
                     }
-
-                    Console.Write("Choose entry number: ");
-
-                    if (!int.TryParse(Console.ReadLine(), out int sel) ||
-                        sel < 1 || sel > schedules.Count)
+                    else
                     {
                         Console.WriteLine("Invalid selection.");
-                        continue;
                     }
-
-                    scheduleService.DeleteSchedule(sel - 1);
-                    Console.WriteLine("🗑️ Schedule deleted successfully!");
                 }
-
                 else if (choice == "5")
                 {
-                    Console.WriteLine("Exiting...");
+                    Console.WriteLine("Exiting program...");
                     break;
-                }
-
-                else
-                {
-                    Console.WriteLine("Invalid choice.");
                 }
             }
         }

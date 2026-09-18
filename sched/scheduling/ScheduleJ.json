@@ -7,11 +7,11 @@
     "Time": "2pm - 7pm"
   },
   {
-    "Subject": "Database",
-    "Professor": "Sir John",
-    "Room": "305",
-    "Day": "Monday",
-    "Time": "9am - 10am"
+    "Subject": "ada",
+    "Professor": "ada",
+    "Room": "24",
+    "Day": "sadasj",
+    "Time": "204"
   },
   {
     "Subject": "Networking",
@@ -21,10 +21,38 @@
     "Time": "7am - 10am"
   },
   {
-    "Subject": "OOP",
-    "Professor": "Sir. Ed",
+    "Subject": "5",
+    "Professor": "asd",
+    "Room": "asd",
+    "Day": "dfg",
+    "Time": "d"
+  },
+  {
+    "Subject": "oop",
+    "Professor": "sir reg",
+    "Room": "230",
+    "Day": "sat",
+    "Time": "7:00"
+  },
+  {
+    "Subject": "oop",
+    "Professor": "sir rej",
     "Room": "204",
-    "Day": "Saturday",
-    "Time": "12 - 5"
+    "Day": "sat",
+    "Time": "6:00 am"
+  },
+  {
+    "Subject": "fil",
+    "Professor": "a",
+    "Room": "ad",
+    "Day": "a",
+    "Time": "ad"
+  },
+  {
+    "Subject": "asda",
+    "Professor": "dffg",
+    "Room": "23",
+    "Day": "asd",
+    "Time": "1:00"
   }
 ]
